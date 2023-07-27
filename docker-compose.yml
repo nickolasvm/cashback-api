@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  api:
+    build: .
+    container_name: cashback_api
+    ports:
+      - 3001:3001
+    working_dir: /app
+    # comentar o volume e command quando enviar para produção
+    volumes:
+      - ./:/app
+    command: dev
+    env_file:
+      - .env
+    depends_on:
+      - database
+
+  database:
+    image: mongo:latest
+    container_name: cashback_database
+    restart: always
+    ports:
+      - 3306:3306
+    env_file:
+      - .env
