@@ -21,6 +21,6 @@ services:
     container_name: cashback_database
     restart: always
     ports:
-      - 3306:3306
+      - 27017:27017
     env_file:
       - .env
