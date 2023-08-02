@@ -15,15 +15,18 @@
     "dev": "ts-node-dev src/server.ts",
     "prestart": "npm run build",
     "start": "node dist/src/server.js",
-    "apiLogs": "docker logs --follow cashback_api",
-    "dbLogs": "docker logs --follow cashback_database"
+    "logs": "docker logs --follow cashback_api"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "express-async-errors": "^3.1.1",
+    "joi": "^17.9.2",
+    "jsonwebtoken": "^9.0.1",
     "mongodb": "^5.7.0",
     "mongoose": "^7.4.1"
   },

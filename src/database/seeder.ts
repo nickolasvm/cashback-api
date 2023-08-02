@@ -1,5 +1,5 @@
 import connectDB from './connection';
-import userModel from '../models/userModel';
+import userModel from '../models/user.model';
 import users from './seedData';
 
 const seedDatabase = async () => {
