@@ -2,6 +2,7 @@ import 'express-async-errors';
 import { Request, Response } from 'express';
 import services from '../services';
 import httpStatus from '../utils/httpStatus';
+import utils from '../utils';
 
 class UserController {
 	static async create(req: Request, res: Response) {
@@ -9,6 +10,14 @@ class UserController {
 		await services.user.create(data);
 
 		return res.status(httpStatus.OK).send('User created successfully.');
+	}
+
+	static async login(req: Request, res: Response) {
+		const { email, password } = req.body;
+		const user = await services.user.login(email, password);
+		const token = utils.createToken(user);
+
+		return res.status(utils.httpStatus.OK).json({ token });
 	}
 }
 

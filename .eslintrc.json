@@ -31,7 +31,6 @@
         "semi": [
             "error",
             "always"
-        ],
-        "no-magic-numbers": "error"
+        ]
     }
 }

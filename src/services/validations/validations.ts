@@ -7,6 +7,14 @@ const validateUser = (payload: object) => {
 	return { type: null, message: '' };
 };
 
+const validateLogin = (payload: object) => {
+	const { error } = joiSchemas.loginSchema.validate(payload);
+	if (error) return { type: error.details[0].type, message: error.message };
+
+	return { type: null, message: '' };
+};
+
 export default {
 	validateUser,
+	validateLogin,
 };
