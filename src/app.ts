@@ -8,6 +8,7 @@ app.use(express.json());
 
 app.use('/user', routes.user);
 app.use('/login', routes.login);
+app.use('/sale', routes.sale);
 
 app.use(errorHandler);
 

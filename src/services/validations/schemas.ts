@@ -12,7 +12,13 @@ const loginSchema = Joi.object({
 	password: Joi.string().min(6).required(),
 });
 
+const newSaleSchema = Joi.object({
+	productCode: Joi.string().required(),
+	value: Joi.number().positive().required(),
+});
+
 export default {
 	userSchema,
 	loginSchema,
+	newSaleSchema,
 };

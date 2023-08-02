@@ -7,9 +7,9 @@ const jwtConfig = {
 	expiresIn: '3d',
 };
 
-const createToken = (user: { email: string }) => {
+const createToken = (user: { cpf: string }) => {
 	return jwt.sign(
-		{ data: { email: user.email } },
+		{ data: { cpf: user.cpf } },
 		process.env.JWT_SECRET as Secret,
 		jwtConfig,
 	);

@@ -14,7 +14,15 @@ const validateLogin = (payload: object) => {
 	return { type: null, message: '' };
 };
 
+const validateNewSale = (payload: object) => {
+	const { error } = joiSchemas.newSaleSchema.validate(payload);
+	if (error) return { type: error.details[0].type, message: error.message };
+
+	return { type: null, message: '' };
+};
+
 export default {
 	validateUser,
 	validateLogin,
+	validateNewSale,
 };
