@@ -12,10 +12,11 @@
     "test:unit": "jest tests/unit",
     "test:integration": "jest tests/integration --runInBand",
     "lint": "eslint . --ext .ts",
-    "dev": "ts-node-dev src/server.ts",
+    "dev": "ts-node-dev src/database/seeder.ts && ts-node-dev src/server.ts",
     "prestart": "npm run build",
     "start": "node dist/src/server.js",
-    "logs": "docker logs --follow cashback_api"
+    "logs": "docker logs --follow cashback_api",
+    "dblogs": "docker logs --follow cashback_database"
   },
   "keywords": [],
   "author": "",

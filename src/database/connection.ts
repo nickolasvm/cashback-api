@@ -1,4 +1,4 @@
-import { connect } from 'mongoose';
+import { connect, disconnect } from 'mongoose';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -7,7 +7,7 @@ const { MONGO_HOST, MONGO_PORT, MONGO_DB, MONGO_INITDB_ROOT_USERNAME, MONGO_INIT
 
 const DB_URL = `mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}/${MONGO_DB}?authSource=admin`;
 
-const connectDB = async () => {
+export const connectDB = async () => {
 	try {
 		await connect(DB_URL);
 		console.log('Connected to database.');
@@ -20,4 +20,7 @@ const connectDB = async () => {
 	}
 };
 
-export default connectDB;
+export const disconnectDB = async () => {
+	await disconnect();
+	console.log('Disconnected to database.');
+};

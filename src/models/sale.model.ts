@@ -1,7 +1,7 @@
-import { Schema, Document, model } from 'mongoose';
+import { Schema, Document } from 'mongoose';
 
-interface ISale extends Document {
-	productCode: string,
+export interface ISale extends Document {
+	productCode: string;
 	value: number;
 	date: Date;
 	status: string;
@@ -10,10 +10,8 @@ interface ISale extends Document {
 const saleSchema = new Schema<ISale>({
 	productCode: { type: String, required: true },
 	value: { type: Number, required: true },
-	date: { type: Date, required: true },
+	date: { type: Date, default: Date.now, required: true },
 	status: { type: String, required: true },
 });
 
-const saleModel = model<ISale>('Sale', saleSchema);
-
-export default saleModel;
+export default saleSchema;

@@ -8,9 +8,8 @@ class SaleController {
 		const authToken = req.headers.authorization;
 		const { productCode, value } = req.body;
         
-		const newSale = await services.sale.create(value, productCode, authToken);
-
-		return res.status(utils.httpStatus.OK).send(`Sale created. Status: ${newSale.status}`);
+		await services.sale.create(value, productCode, authToken);
+		return res.status(utils.httpStatus.OK).send('Sale created successfully.');
 	}
 }
 

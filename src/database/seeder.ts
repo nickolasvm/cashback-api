@@ -1,21 +1,18 @@
-import connectDB from './connection';
+import { connectDB, disconnectDB } from './connection';
+import userSeed from './seedData';
 import userModel from '../models/user.model';
-import users from './seedData';
 
 const seedDatabase = async () => {
-	await connectDB();
-
 	try {
-		// Delete existing data before seeding
+		await connectDB();
 		await userModel.deleteMany({});
-
-		// Seed the database
-		await userModel.insertMany(users);
-
+		await userModel.insertMany(userSeed);
 		console.log('Database seeding completed');
 	} catch (err) {
 		console.error('Error seeding database:', err);
+	} finally {
+		await disconnectDB();
 	}
 };
 
-export default seedDatabase;
+seedDatabase();

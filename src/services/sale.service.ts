@@ -12,8 +12,8 @@ class SaleService {
 		if (!authToken) {
 			throw utils.errorGenerator(utils.httpStatus.UNATHORIZED, 'Incorrect authorization token.');
 		}
-		const { cpf } = utils.decodeToken(authToken).data;
 
+		const { cpf } = utils.decodeToken(authToken).data;
 		const findUser = await models.user.findOne({ cpf });
 		if (!findUser) {
 			throw utils.errorGenerator(utils.httpStatus.CONFLICT, 'User not found.');
@@ -22,7 +22,14 @@ class SaleService {
 		let status = 'Em validação';
 		if (cpf === '15350946056') { status = 'Aprovado'; }
 
-		const newSale = await models.sale.create({ value, productCode, status, date: new Date().toString() });
+		const newSale = { value, productCode, status };
+
+		try {
+			await models.user.updateOne({ cpf }, { $push: { sales: { value, productCode, status } } });
+		} catch (e) {
+			console.error(e);
+		}
+
 		return newSale;
 	}
 }
