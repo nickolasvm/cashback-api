@@ -51,6 +51,7 @@ describe('Testing user cases', () => {
 
 		afterEach(() => {
 			(userModel.findOne).restore();
+			(utils.createToken).restore();
 		});
 
 		it('should login the user successfully', async () => {
