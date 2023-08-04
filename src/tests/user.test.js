@@ -10,7 +10,14 @@ chai.use(chaiHttp);
 const { expect } = chai;
 
 describe('Testing user cases', () => {
-	describe('The create method', () => {
+	describe('The create method, when successfull', () => {
+		const mock_input = {
+			username: 'Jhonny Test',
+			cpf: '12345678910',
+			email: 'test@test.com',
+			password: 'atestpassword',
+		};
+
 		beforeEach(async () => {
 			sinon
 				.stub(userModel, 'create')
@@ -25,21 +32,23 @@ describe('Testing user cases', () => {
 			(userModel.findOne).restore();
 		});
 
-		it('should create a new user successfully', async () => {
-			const mock_input = {
-				username: 'Jhonny Test',
-				cpf: '12345678910',
-				email: 'test@test.com',
-				password: 'atestpassword',
-			};
+		it('should return HTTP status 200', async () => {
 			const response = await chai.request(app).post('/user').send(mock_input);
-
 			expect(response.status).to.equal(200);
+		});
+
+		it('should create a new user and return a message', async () => {
+			const response = await chai.request(app).post('/user').send(mock_input);
 			expect(response.text).to.equal('User created successfully.');
 		});
 	});
 
-	describe('The login method', () => {
+	describe('The login method, when successfull', () => {
+		const mock_input = {
+			email: 'test@test.com',
+			password: 'atestpassword',
+		};
+
 		beforeEach(async () => {
 			sinon
 				.stub(userModel, 'findOne')
@@ -54,14 +63,13 @@ describe('Testing user cases', () => {
 			(utils.createToken).restore();
 		});
 
-		it('should login the user successfully', async () => {
-			const mock_input = {
-				email: 'test@test.com',
-				password: 'atestpassword',
-			};
+		it('should return HTTP status 200', async () => {
 			const response = await chai.request(app).post('/login').send(mock_input);
-
 			expect(response.status).to.equal(200);
+		});
+
+		it('should login the user and return JWT token', async () => {
+			const response = await chai.request(app).post('/login').send(mock_input);
 			expect(response.text).to.equal('{"token":{}}');
 		});
 	});
