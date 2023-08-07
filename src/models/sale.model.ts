@@ -5,6 +5,7 @@ export interface ISale extends Document {
 	value: number;
 	date: Date;
 	status: string;
+	cashback: number;
 }
 
 const saleSchema = new Schema<ISale>({
@@ -12,6 +13,7 @@ const saleSchema = new Schema<ISale>({
 	value: { type: Number, required: true },
 	date: { type: Date, default: Date.now, required: true },
 	status: { type: String, required: true },
+	cashback: { type: Number, required: true },
 });
 
 export default saleSchema;
