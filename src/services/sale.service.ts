@@ -37,13 +37,17 @@ class SaleService {
 		const newSale = { value, productCode, status, cashback: value * 0.10 };
 		await models.user.updateOne({ cpf }, { $push: { sales: newSale } });
 
-		const sales = await this.findSales(cpf);
+		const sales = await this.find(authToken);
 		const monthlySales = await this.getMonthlySales(sales);
 		const updatedSales = this.defineCashback(monthlySales.monthSales, monthlySales.sumSales)
 		await this.updateCashback(updatedSales, cpf);
 	}
 
-	static async findSales(cpf: string) {
+	static async find(authToken: string | undefined) {
+		if (!authToken) {
+			throw utils.errorGenerator(utils.httpStatus.UNATHORIZED, 'Incorrect authorization token.');
+		}
+		const { cpf } = utils.decodeToken(authToken).data;
 		const userSales = await models.user.find({ cpf }).populate('sales')
 		return userSales[0].sales;
 	}
