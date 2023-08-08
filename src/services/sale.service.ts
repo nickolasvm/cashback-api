@@ -10,6 +10,7 @@ type Sale = {
 	date: Date;
 	status: string;
 	cashback: number;
+	cashbackPercentage: number;
 }
 
 class SaleService {
@@ -27,11 +28,11 @@ class SaleService {
 
 		let status = 'Em validação';
 		if (cpf === '15350946056') { status = 'Aprovado'; }
-		
-		const newSale = { value, productCode, status, cashback: value * 0.10 };
+
+		const newSale = { value, productCode, status, cashback: value * 0.10, cashbackPercentage: 0.1 };
 		await models.user.updateOne({ cpf }, { $push: { sales: newSale } });
 
-		const sales = await this.find(cpf);
+		const sales = await this.find(authToken);
 		const monthlySales = await this.getMonthlySales(sales);
 		const updatedSales = this.defineCashback(monthlySales.monthSales, monthlySales.sumSales)
 		await this.updateCashback(updatedSales, cpf);
@@ -42,8 +43,9 @@ class SaleService {
 		return cpf;
 	}
 
-	static async find(cpf: string) {
-		const userSales = await models.user.find({ cpf }).populate('sales')
+	static async find(authToken: string) {
+		const cpf = this.findCpf(authToken);
+		const userSales = await models.user.find({ cpf }).populate('sales');
 		return userSales[0].sales;
 	}
 
@@ -68,7 +70,8 @@ class SaleService {
 		if (salesTotal > 1500) { cashbackPercent = 0.20 };
 
 		sales.forEach((sale) => {
-			sale.cashback = sale.value * cashbackPercent; 
+			sale.cashback = sale.value * cashbackPercent;
+			sale.cashbackPercentage = cashbackPercent; 
 		});
 
 		return sales;

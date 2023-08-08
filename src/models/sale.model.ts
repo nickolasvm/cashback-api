@@ -6,6 +6,7 @@ export interface ISale extends Document {
 	date: Date;
 	status: string;
 	cashback: number;
+	cashbackPercentage: number;
 }
 
 const saleSchema = new Schema<ISale>({
@@ -14,6 +15,7 @@ const saleSchema = new Schema<ISale>({
 	date: { type: Date, default: Date.now, required: true },
 	status: { type: String, required: true },
 	cashback: { type: Number, required: true },
+	cashbackPercentage: { type: Number, required: true },
 });
 
 export default saleSchema;

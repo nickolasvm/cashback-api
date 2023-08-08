@@ -11,6 +11,7 @@ const users = [
 				date: new Date(),
 				status: 'Em validação',
 				cashback: 25,
+				cashbackPercentage: 0.1,
 			},
 			{
 				productCode: 'Garfo',
@@ -18,6 +19,7 @@ const users = [
 				date: new Date(),
 				status: 'Em validação',
 				cashback: 50,
+				cashbackPercentage: 0.1,
 			},
 			{
 				productCode: 'Faca',
@@ -25,6 +27,7 @@ const users = [
 				date: new Date(),
 				status: 'Em validação',
 				cashback: 15,
+				cashbackPercentage: 0.1,
 			},
 		],
 	},
@@ -40,6 +43,7 @@ const users = [
 				date: new Date(),
 				status: 'Em validação',
 				cashback: 180,
+				cashbackPercentage: 0.15,
 			},
 		],
 	},
@@ -55,6 +59,7 @@ const users = [
 				date: new Date(),
 				status: 'Aprovado',
 				cashback: 240,
+				cashbackPercentage: 0.2,
 			},
 			{
 				productCode: 'Garfo',
@@ -62,6 +67,7 @@ const users = [
 				date: new Date(),
 				status: 'Aprovado',
 				cashback: 300,
+				cashbackPercentage: 0.2,
 			},
 			{
 				productCode: 'Faca',
@@ -69,6 +75,7 @@ const users = [
 				date: new Date(),
 				status: 'Aprovado',
 				cashback: 400,
+				cashbackPercentage: 0.2,
 			},
 		],
 	},
