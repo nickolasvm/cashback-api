@@ -80,6 +80,15 @@ class SaleService {
 	static async updateCashback(sales: Array<Sale>, cpf: number) {
 		await models.user.findOneAndUpdate({ cpf }, { sales });
 	}
+
+	static async getTotal(authToken: string) {
+		const sales = await this.find(authToken);
+		const cashbackSum = sales.reduce((acc, curr) => {
+			return acc += curr.cashback;
+		}, 0)
+
+		return cashbackSum;
+	}
 }
 
 export default SaleService;
