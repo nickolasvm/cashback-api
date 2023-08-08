@@ -8,7 +8,7 @@ class UserController {
 		const data = req.body;
 		await services.user.create(data);
 
-		return res.status(utils.httpStatus.OK).send('User created successfully.');
+		return res.status(utils.httpStatus.CREATED).send('User created successfully.');
 	}
 
 	static async login(req: Request, res: Response) {

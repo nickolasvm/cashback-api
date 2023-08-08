@@ -2,8 +2,6 @@ import models from '../models';
 import ISale from '../models/sale.model';
 import joiValidation from './validations/validations';
 import utils from '../utils';
-import { model } from 'mongoose';
-import { date } from 'joi';
 
 type Sale = {
 	_id?: string;
@@ -15,17 +13,13 @@ type Sale = {
 }
 
 class SaleService {
-	static async create(value: number, productCode: string, authToken: string | undefined) {
+	static async create(value: number, productCode: string, authToken: string) {
 		const error = joiValidation.validateNewSale({ value, productCode });
 		if (error.type) {
 			throw utils.errorGenerator(utils.httpStatus.BAD_REQUEST, error.message);
 		}
 
-		if (!authToken) {
-			throw utils.errorGenerator(utils.httpStatus.UNATHORIZED, 'Incorrect authorization token.');
-		}
-
-		const { cpf } = utils.decodeToken(authToken).data;
+		const cpf = this.findCpf(authToken);
 		const findUser = await models.user.findOne({ cpf });
 		if (!findUser) {
 			throw utils.errorGenerator(utils.httpStatus.CONFLICT, 'User not found.');
@@ -37,17 +31,18 @@ class SaleService {
 		const newSale = { value, productCode, status, cashback: value * 0.10 };
 		await models.user.updateOne({ cpf }, { $push: { sales: newSale } });
 
-		const sales = await this.find(authToken);
+		const sales = await this.find(cpf);
 		const monthlySales = await this.getMonthlySales(sales);
 		const updatedSales = this.defineCashback(monthlySales.monthSales, monthlySales.sumSales)
 		await this.updateCashback(updatedSales, cpf);
 	}
 
-	static async find(authToken: string | undefined) {
-		if (!authToken) {
-			throw utils.errorGenerator(utils.httpStatus.UNATHORIZED, 'Incorrect authorization token.');
-		}
+	static findCpf(authToken: string) {
 		const { cpf } = utils.decodeToken(authToken).data;
+		return cpf;
+	}
+
+	static async find(cpf: string) {
 		const userSales = await models.user.find({ cpf }).populate('sales')
 		return userSales[0].sales;
 	}
