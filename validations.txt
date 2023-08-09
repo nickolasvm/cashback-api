@@ -1,7 +1,0 @@
-. fazer um errorHandler para retornar erros distintos com distintos códigos
-
-. na criação de ususario:
-- username não pode ser vazio e precisa de no minimo, 3 caracteres
-- cpf precisa ser 11 digitos
-- email precisa de uma validação correta para formato de email
-- senha precisa ter validação JWT

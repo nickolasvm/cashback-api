@@ -27,7 +27,7 @@ class SaleController {
         if (!authToken) { throw utils.errorGenerator(utils.httpStatus.BAD_REQUEST, 'Authorization token not found.'); }
 
 		const response = await axios.get('https://mockbin.org/bin/b8c30345-7409-4a78-8021-29304ef32fff');
-		if (response.data != 'cashback:200') { throw utils.errorGenerator(utils.httpStatus.INTERNAL_SERVER_ERROR, 'Authorization token not found.'); }
+		if (response.data != 'cashback:200') { throw utils.errorGenerator(utils.httpStatus.INTERNAL_SERVER_ERROR, 'Could not fetch information.'); }
 
 		const cashbackSum = await services.sale.getTotal(authToken); 
 		return res.status(utils.httpStatus.OK).json({ cashbackTotal: cashbackSum });
